@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Погода</string>
+    <string name="label">Погода</string>
+    <string name="text">Погода</string>
+    <string name="city_and_region">Белгород, Белгородская область</string>
+    <string name="data_and_time">воскресенье 10:00</string>
+    <string name="weather">Солнечно</string>
+    <string name="temperature">15</string>
+    <string name="degrees">C | F</string>
+    <string name="probability_of_precipitation">Вероятность осадков: 0%</string>
+    <string name="humidity">Влажность: 87%</string>
+    <string name="wind">Ветер: 2 м/с</string>
+
+
+
+
 </resources>
