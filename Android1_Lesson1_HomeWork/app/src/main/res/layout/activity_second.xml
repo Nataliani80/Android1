@@ -21,9 +21,11 @@
         android:src="@drawable/weather2"/>
 
     <TextView
+        android:id="@+id/textViewData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/data_and_time"
+        android:textSize="20sp"
         android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
@@ -53,37 +55,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/degrees"
-                android:textSize="20sp"
-                android:paddingLeft="16dp"/>
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="7"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingRight="16dp">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/probability_of_precipitation"
-                android:textSize="15sp"
-                android:layout_gravity="right"/>
+                style="@style/SecondStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/humidity"
-                android:textSize="15sp"
-                android:layout_gravity="right"/>
+                style="@style/SecondStyle"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/wind"
-                android:textSize="15sp"
-                android:layout_gravity="right"/>
+                style="@style/SecondStyle"/>
 
         </LinearLayout>
 

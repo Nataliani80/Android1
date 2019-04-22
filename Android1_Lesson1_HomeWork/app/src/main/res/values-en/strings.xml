@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="label">Weather</string>
+    <string name="text">Weather</string>
+    <string name="city_and_region">Belgorod area, Belgorod</string>
+    <string name="data_and_time">sunday 10:00</string>
+    <string name="weather">Sunny</string>
+    <string name="temperature">15</string>
+    <string name="degrees">C | F</string>
+    <string name="probability_of_precipitation">Probability of precipitation: 0%</string>
+    <string name="humidity">Humidity: 87%</string>
+    <string name="wind">Wind: 2 м/с</string>
+    <string name="city_request">Enter the name of the city</string>
+    <string name="check_weather">Check the weather</string>
+</resources>
