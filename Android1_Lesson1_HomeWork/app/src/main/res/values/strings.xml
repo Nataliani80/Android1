@@ -12,11 +12,34 @@
     <string name="wind">Ветер: 2 м/с</string>
     <string name="city_request">Введите название города</string>
     <string name="check_weather">Узнать погоду</string>
+    <string name="empty">Список городов пуст</string>
 
 
+    <string-array name="Cities">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Белгород</item>
+        <item>Екатеринбург</item>
+        <item>Новосибирск</item>
+        <item>Самара</item>
+    </string-array>
 
+    <string-array name="Weather">
+        <item>Пасмурно</item>
+        <item>Дождь со снегом</item>
+        <item>Солнечно</item>
+        <item>Переменная облачность</item>
+        <item>Ожидаются заморозки</item>
+        <item>Солнечно</item>
+    </string-array>
 
-
-
+    <string-array name="Temperatures">
+        <item>15</item>
+        <item>10</item>
+        <item>19</item>
+        <item>15</item>
+        <item>2</item>
+        <item>17</item>
+    </string-array>
 
 </resources>
