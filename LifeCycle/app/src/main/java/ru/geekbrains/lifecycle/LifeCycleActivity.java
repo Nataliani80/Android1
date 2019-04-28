@@ -14,6 +14,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     private static final String TAG = "MyApp";
 
     private int counter;                    // Счетчик
+    LifeCycleFragment lifeCycleFragment = new LifeCycleFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class LifeCycleActivity extends AppCompatActivity {
         }
 
 
-            Toast.makeText(getApplicationContext(), instanceState + " - onCreate()", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), instanceState + "Activity - onCreate()", Toast.LENGTH_SHORT).show();
 
         // Получить Presenter
         final LifeCyclePresenter presenter = LifeCyclePresenter.getInstance();
@@ -57,7 +58,7 @@ public class LifeCycleActivity extends AppCompatActivity {
         super.onSaveInstanceState(saveInstanceState);
 
         saveInstanceState.putInt(KEY, counter);               // Сохраняем счетчик
-        Toast.makeText(getApplicationContext(), "onSaveInstanceState()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onSaveInstanceState()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onSaveInstanceState");
     }
 
@@ -66,7 +67,7 @@ public class LifeCycleActivity extends AppCompatActivity {
         super.onRestoreInstanceState(saveInstanceState);
 
         counter = saveInstanceState.getInt(KEY);              // Восстанавливаем счетчик
-        Toast.makeText(getApplicationContext(), "Повторный запуск!! - onRestoreInstanceState()",
+        Toast.makeText(getApplicationContext(), "Activity Повторный запуск!! - onRestoreInstanceState()",
                 Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onRestoreInstanceState");
 
@@ -75,7 +76,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Toast.makeText(getApplicationContext(), "onStart()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onStart()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onStart");
 
     }
@@ -83,7 +84,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(getApplicationContext(), "onResume()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onResume()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onResume");
 
     }
@@ -91,7 +92,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onPause()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onPause");
 
     }
@@ -99,7 +100,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(getApplicationContext(), "onStop()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onStop()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onStop");
 
     }
@@ -107,7 +108,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(getApplicationContext(), "onRestart()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onRestart()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onRestart");
 
     }
@@ -115,7 +116,7 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(getApplicationContext(), "onDestroy()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Activity - onDestroy()", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onDestroy");
 
     }
