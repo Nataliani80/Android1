@@ -1,9 +1,7 @@
-package com.example.natali.android1_lesson1_homework;
+package com.example.natali.android1;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
