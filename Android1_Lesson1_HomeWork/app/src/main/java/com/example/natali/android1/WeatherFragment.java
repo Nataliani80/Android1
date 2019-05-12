@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -61,6 +63,26 @@ public class WeatherFragment extends Fragment {
         temperatureView.setText(temperature[getPosition()]);
         textViewData.setText(data);
 
+        Button temperatureButton = layout.findViewById(R.id.check_temperature_button);
+        temperatureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTemperature(position);
+            }
+        });
+
         return layout;
     }
+
+    private void showTemperature(int position) {
+
+        TemperatureFragment detailTemperature = TemperatureFragment.create(position);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, detailTemperature);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
 }

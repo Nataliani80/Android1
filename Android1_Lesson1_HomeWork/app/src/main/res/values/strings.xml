@@ -13,6 +13,7 @@
     <string name="city_request">Введите название города</string>
     <string name="check_weather">Узнать погоду</string>
     <string name="empty">Список городов пуст</string>
+    <string name="check_temperature">Проверить температуру</string>
 
 
     <string-array name="Cities">
@@ -41,5 +42,27 @@
         <item>2</item>
         <item>17</item>
     </string-array>
+
+    <string-array name="Days">
+        <item>Вчера</item>
+        <item>Позавчера</item>
+        <item>3 дня назад</item>
+        <item>4 дня назад</item>
+        <item>5 дней назад</item>
+        <item>6 дней назад</item>
+        <item>Неделю назад</item>
+    </string-array>
+
+    <string-array name="TemperaturesByDays">
+        <item>Вчера: +20 C | F</item>
+        <item>Позавчера: +19 C | F</item>
+        <item>2 дня назад: +19 C | F</item>
+        <item>3 дня назад: +15 C | F</item>
+        <item>4 дня назад: +17 C | F</item>
+        <item>5 дней назад: +15 C | F</item>
+        <item>6 дней назад: +13 C | F</item>
+        <item>Неделю назад: +7 C | F</item>
+    </string-array>
+
 
 </resources>
