@@ -1,4 +1,4 @@
-package com.example.natali.android1_lesson1_homework;
+package com.example.natali.android1;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

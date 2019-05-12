@@ -9,10 +9,8 @@
     </style>
 
     <style name="MainStyle">
-        <item name="android:paddingTop">20dp</item>
         <item name="android:background">#F8F8FF</item>
         <item name="android:textSize">20dp</item>
-        <item name="android:paddingLeft">16dp</item>
         <item name="android:textColor">#FF4500</item>
     </style>
 
