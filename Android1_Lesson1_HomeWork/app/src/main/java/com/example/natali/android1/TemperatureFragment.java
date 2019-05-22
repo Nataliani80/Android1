@@ -4,22 +4,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TemperatureFragment extends Fragment {
 
     private static final String KEY_POSITION = "Position";
+    private static final String KEY_NAME = "CityName";
+
     private String[] temperatures;
 
-    public static TemperatureFragment create(int position) {
+
+    public static TemperatureFragment create(String name) {
         TemperatureFragment temperatureFragment = new TemperatureFragment();
         Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
+        args.putString(KEY_NAME, name);
         temperatureFragment.setArguments(args);
         return temperatureFragment;
     }
@@ -28,30 +34,39 @@ public class TemperatureFragment extends Fragment {
         return getArguments().getInt(KEY_POSITION);
     }
 
+    public String getName() {
+        return getArguments().getString(KEY_NAME);
+    }
+
+    public String dataNow() {
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("E dd.MM.yyyy");
+        return formatForDateNow.format(dateNow);
+    }
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_temperatures, container, false);
 
-        temperatures = getResources().getStringArray(R.array.TemperaturesByDays);
+        String data = dataNow();
 
-        ListView listView = layout.findViewById(R.id.listTemperatures);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_temperatures, temperatures);
-        listView.setAdapter(arrayAdapter);
+        TextView cityNameView = layout.findViewById(R.id.textViewCity1);
+        TextView textViewData = layout.findViewById(R.id.textViewData);
 
+        cityNameView.setText(getName());
+        textViewData.setText(data);
 
+        CardTemperaturesBuilder builder = new CardTemperaturesBuilder(getResources());
+        RecyclerView recyclerView = layout.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
 
-//        String[] days = getResources().getStringArray(R.array.Days);
-//        String[] temperatureByDays = getResources().getStringArray(R.array.TemperaturesByDays);
-//        String symbol = getResources().getString(R.string.degrees);
-//
-//        TextView daysView = layout.findViewById(R.id.);
-//        TextView temperatureByDayView = layout.findViewById(R.id.Temperature_by_day);
-//
-//        daysView.setText(days[getPosition()]);
-//        temperatureByDayView.setText(temperatureByDays[getPosition()]);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-
+        AdapterTemperatures adapterTemperatures = new AdapterTemperatures(builder.build());
+        recyclerView.setAdapter(adapterTemperatures);
         return layout;
     }
 }

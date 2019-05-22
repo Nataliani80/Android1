@@ -17,8 +17,6 @@ import java.util.Date;
 public class WeatherFragment extends Fragment {
     private static final String KEY_POSITION = "Position";
     private static final String KEY_NAME = "CityName";
-    private int position;
-    private String name;
 
     public static WeatherFragment create(int position, String name) {
         WeatherFragment weatherFragment = new WeatherFragment();
@@ -67,16 +65,16 @@ public class WeatherFragment extends Fragment {
         temperatureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTemperature(position);
+                showTemperature(getName());
             }
         });
 
         return layout;
     }
 
-    private void showTemperature(int position) {
+    private void showTemperature(String name) {
 
-        TemperatureFragment detailTemperature = TemperatureFragment.create(position);
+        TemperatureFragment detailTemperature = TemperatureFragment.create(name);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, detailTemperature);

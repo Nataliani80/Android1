@@ -18,8 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="20dp"
-        android:paddingLeft="16dp"
-    >
+        android:paddingLeft="16dp">
 
         <TextView
             android:id="@+id/textViewCity"
@@ -100,6 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:background="@drawable/custom_button"
             android:text="@string/check_temperature"
             android:textColor="@color/colorAccent"/>
     </LinearLayout>
