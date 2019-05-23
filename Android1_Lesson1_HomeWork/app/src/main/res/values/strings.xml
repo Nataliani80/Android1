@@ -17,8 +17,16 @@
     <string name="menu_search">Поиск</string>
     <string name="menu_info">О приложении</string>
     <string name="menu_exit">Выход</string>
-
-
+    <string name="name">Наталья Кулабухова</string>
+    <string name="email">nataliani80@gmail.com</string>
+    <string name="cities">Города</string>
+    <string name="map">Карта</string>
+    <string name="about_developer">О разработчике</string>
+    <string name="feedback">Форма обратной связи</string>
+    <string name="share">Поделиться</string>
+    <string name="menu_title">Связь</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 
 
     <string-array name="Cities">

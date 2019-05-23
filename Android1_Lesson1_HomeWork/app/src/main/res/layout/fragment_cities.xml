@@ -11,7 +11,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:theme="@style/Theme.AppCompat.Light"
         android:fitsSystemWindows="true">
 
@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
+            app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
             android:fitsSystemWindows="true"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
@@ -32,7 +34,7 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:background="@color/LightCyan"
-                android:src="@drawable/weather_main"
+                android:src="@drawable/theme_2"
                 app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar
