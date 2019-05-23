@@ -14,6 +14,11 @@
     <string name="check_weather">Узнать погоду</string>
     <string name="empty">Список городов пуст</string>
     <string name="check_temperature">Проверить температуру</string>
+    <string name="menu_search">Поиск</string>
+    <string name="menu_info">О приложении</string>
+    <string name="menu_exit">Выход</string>
+
+
 
 
     <string-array name="Cities">

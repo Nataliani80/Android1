@@ -15,5 +15,10 @@
     <string name="check_weather">Check the weather</string>
     <string name="empty">The list of cities is empty</string>
     <string name="check_temperature">Сheck temperature</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_info">About app</string>
+    <string name="menu_exit">Exit</string>
+
+
 
 </resources>

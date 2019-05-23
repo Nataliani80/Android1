@@ -1,7 +1,9 @@
 package com.example.natali.android1;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +11,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CitiesFragment extends Fragment {
 
@@ -19,6 +27,13 @@ public class CitiesFragment extends Fragment {
     private int position;
     private String name;
     private Toolbar toolbar;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     // При создании фрагмента укажем его макет
     @Override
@@ -60,6 +75,43 @@ public class CitiesFragment extends Fragment {
         outState.putString(KEY_NAME, name);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_cities, menu);
+
+        MenuItem search = menu.findItem(R.id.menu_search);
+        SearchView searchText = (SearchView) search.getActionView();
+        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                searchCity();
+                return true;
+            case R.id.menu_info:
+                showInfoAboutApp();
+                return true;
+            case R.id.menu_exit:
+                exit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void showWeather(int position, String name) {
         WeatherFragment detail = WeatherFragment.create(position, name);
 
@@ -68,5 +120,17 @@ public class CitiesFragment extends Fragment {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    private void searchCity() {
+        Toast.makeText(getActivity(), "Поиск города", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showInfoAboutApp() {
+        Toast.makeText(getActivity(), "Информация о приложении", Toast.LENGTH_SHORT).show();
+    }
+
+    private void exit() {
+        Toast.makeText(getActivity(), "Выход", Toast.LENGTH_SHORT).show();
     }
 }
