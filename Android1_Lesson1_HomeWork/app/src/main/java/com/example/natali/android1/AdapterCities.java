@@ -15,11 +15,11 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
 
     public class ViewHolderCity extends RecyclerView.ViewHolder {
 
-        public TextView city;
+        public TextView tvCity;
 
         public ViewHolderCity(View rootView) {
             super(rootView);
-            city = rootView.findViewById(R.id.textViewCity);
+            tvCity = rootView.findViewById(R.id.textViewCity);
 
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -29,6 +29,10 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
                     }
                 }
             });
+        }
+
+        public void bind(CardCities city) {
+            this.tvCity.setText(city.getCity());
         }
     }
 
@@ -48,14 +52,13 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
     public AdapterCities.ViewHolderCity onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_cities, parent, false);
-        AdapterCities.ViewHolderCity viewHolder = new AdapterCities.ViewHolderCity(view);
-        return viewHolder;
+        return new AdapterCities.ViewHolderCity(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolderCity viewHolder, int position) {
         CardCities item = cities.get(position);
-        viewHolder.city.setText(item.getCity());
+        viewHolder.bind(item);
     }
 
     @Override

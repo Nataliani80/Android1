@@ -16,11 +16,7 @@ import java.util.Date;
 
 public class TemperatureFragment extends Fragment {
 
-    private static final String KEY_POSITION = "Position";
     private static final String KEY_NAME = "CityName";
-
-    private String[] temperatures;
-
 
     public static TemperatureFragment create(String name) {
         TemperatureFragment temperatureFragment = new TemperatureFragment();
@@ -30,11 +26,7 @@ public class TemperatureFragment extends Fragment {
         return temperatureFragment;
     }
 
-    public int getPosition() {
-        return getArguments().getInt(KEY_POSITION);
-    }
-
-    public String getName() {
+    private String getName() {
         return getArguments().getString(KEY_NAME);
     }
 
@@ -51,13 +43,16 @@ public class TemperatureFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_temperatures, container, false);
 
         String data = dataNow();
-
         TextView cityNameView = layout.findViewById(R.id.textViewCity1);
         TextView textViewData = layout.findViewById(R.id.textViewData);
-
         cityNameView.setText(getName());
         textViewData.setText(data);
 
+        configureRecyclerView(layout);
+        return layout;
+    }
+
+    private void configureRecyclerView(View layout) {
         CardTemperaturesBuilder builder = new CardTemperaturesBuilder(getResources());
         RecyclerView recyclerView = layout.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -67,6 +62,5 @@ public class TemperatureFragment extends Fragment {
 
         AdapterTemperatures adapterTemperatures = new AdapterTemperatures(builder.build());
         recyclerView.setAdapter(adapterTemperatures);
-        return layout;
     }
 }
