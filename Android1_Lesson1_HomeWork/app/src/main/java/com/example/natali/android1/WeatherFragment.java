@@ -71,39 +71,23 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_weather, container, false);
-
-        String[] weather = getResources().getStringArray(R.array.Weather);
         String[] temperature = getResources().getStringArray(R.array.Temperatures);
+        String[] weather = getResources().getStringArray(R.array.Weather);
         String data = dataNow();
 
         TextView cityNameView = layout.findViewById(R.id.textViewCity);
         TextView weatherView = layout.findViewById(R.id.textViewWeather);
-        TextView temperatureView = layout.findViewById(R.id.textViewTemperature);
+        TemperatureView temperatureView = layout.findViewById(R.id.customTextView);
         TextView textViewData = (TextView) layout.findViewById(R.id.textViewData);
-
-        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-
-        textProximity = layout.findViewById(R.id.sensor_temperature);
-        sensorProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        sensorManager.registerListener(listener, sensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
-
-        textPressure = layout.findViewById(R.id.sensor_humidity);
-        sensorPressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        sensorManager.registerListener(listener, sensorPressure, SensorManager.SENSOR_DELAY_NORMAL);
 
         cityNameView.setText(getName());
         weatherView.setText(weather[getPosition()]);
-        temperatureView.setText(temperature[getPosition()]);
+        temperatureView.setTemperature(temperature[getPosition()]);
+        temperatureView.setColor(getResources().getColor(R.color.colorPrimaryDark));
         textViewData.setText(data);
 
-        Button temperatureButton = layout.findViewById(R.id.check_temperature_button);
-        temperatureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTemperature(getName());
-            }
-        });
-
+        createSensors(layout);
+        createButton(layout);
         return layout;
     }
 
@@ -116,6 +100,18 @@ public class WeatherFragment extends Fragment {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    private void createSensors(View layout) {
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+
+        textProximity = layout.findViewById(R.id.sensor_proximity);
+        sensorProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sensorManager.registerListener(listener, sensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
+
+        textPressure = layout.findViewById(R.id.sensor_pressure);
+        sensorPressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        sensorManager.registerListener(listener, sensorPressure, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void showSensorTemperature(SensorEvent event) {
@@ -135,5 +131,15 @@ public class WeatherFragment extends Fragment {
         super.onPause();
         sensorManager.unregisterListener(listener, sensorProximity);
         sensorManager.unregisterListener(listener, sensorPressure);
+    }
+
+    private void createButton(View layout) {
+        Button temperatureButton = layout.findViewById(R.id.check_temperature_button);
+        temperatureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTemperature(getName());
+            }
+        });
     }
 }
