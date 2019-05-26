@@ -63,12 +63,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/temperature"
+                    android:layout_marginLeft="24dp"
                     android:textSize="50sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/degrees"
+                    android:layout_marginLeft="24dp"
                     android:textSize="30sp"/>
             </LinearLayout>
 
@@ -101,5 +103,12 @@
 
             </LinearLayout>
         </LinearLayout>
+        <Button
+            android:id="@+id/check_temperature_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/check_temperature"
+            android:textColor="@color/colorAccent"/>
     </LinearLayout>
 </FrameLayout>

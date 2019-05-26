@@ -14,5 +14,19 @@
     <string name="city_request">Enter the name of the city</string>
     <string name="check_weather">Check the weather</string>
     <string name="empty">The list of cities is empty</string>
+    <string name="check_temperature">Сheck temperature</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_info">About app</string>
+    <string name="menu_exit">Exit</string>
+    <string name="name">Natalia Kulabukhova</string>
+    <string name="email">nataliani80@gmail.com</string>
+    <string name="cities">Cities</string>
+    <string name="map">Map</string>
+    <string name="about_developer">About developer</string>
+    <string name="feedback">Feedback</string>
+    <string name="share">Share</string>
+    <string name="menu_title">Communicate</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 
 </resources>

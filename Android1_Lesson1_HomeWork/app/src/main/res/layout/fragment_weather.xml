@@ -7,10 +7,9 @@
     android:background="#F8F8F8">
 
     <ImageView
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/theme_2"
+        android:layout_height="wrap_content"
+        android:src="@drawable/theme_3"
         android:scaleType="centerCrop"/>
 
     <LinearLayout
@@ -18,8 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="20dp"
-        android:paddingLeft="16dp"
-    >
+        android:paddingLeft="16dp">
 
         <TextView
             android:id="@+id/textViewCity"
@@ -94,5 +92,14 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/check_temperature_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/custom_button"
+            android:text="@string/check_temperature"
+            android:textColor="@color/colorAccent"/>
     </LinearLayout>
 </FrameLayout>

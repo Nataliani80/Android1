@@ -6,4 +6,8 @@
     <color name="colorBlack">#000000</color>
     <color name="colorOrangeRed">#FF4500</color>
     <color name="colorGhostWhite">#DCDCDC</color>
+    <color name="LightBlue">#ADD8E6</color>
+    <color name="SkyBlue">#87CEEB</color>
+    <color name="LightCyan">#E0FFFF</color>
+    <color name="PaleTurquoise">#AFEEEE</color>
 </resources>

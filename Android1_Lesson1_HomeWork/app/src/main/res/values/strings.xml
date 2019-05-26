@@ -13,6 +13,20 @@
     <string name="city_request">Введите название города</string>
     <string name="check_weather">Узнать погоду</string>
     <string name="empty">Список городов пуст</string>
+    <string name="check_temperature">Проверить температуру</string>
+    <string name="menu_search">Поиск</string>
+    <string name="menu_info">О приложении</string>
+    <string name="menu_exit">Выход</string>
+    <string name="name">Наталья Кулабухова</string>
+    <string name="email">nataliani80@gmail.com</string>
+    <string name="cities">Города</string>
+    <string name="map">Карта</string>
+    <string name="about_developer">О разработчике</string>
+    <string name="feedback">Форма обратной связи</string>
+    <string name="share">Поделиться</string>
+    <string name="menu_title">Связь</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 
 
     <string-array name="Cities">
@@ -21,7 +35,17 @@
         <item>Белгород</item>
         <item>Екатеринбург</item>
         <item>Новосибирск</item>
+        <item>Барнаул</item>
+        <item>Воронеж</item>
+        <item>Кострома</item>
+        <item>Волгоград</item>
         <item>Самара</item>
+        <item>Мурманск</item>
+        <item>Новороссийск</item>
+        <item>Ростов-На-Дону</item>
+        <item>Великий Устюг</item>
+        <item>Калевала</item>
+        <item>Сочи</item>
     </string-array>
 
     <string-array name="Weather">
@@ -31,6 +55,16 @@
         <item>Переменная облачность</item>
         <item>Ожидаются заморозки</item>
         <item>Солнечно</item>
+        <item>Пасмурно</item>
+        <item>Дождь со снегом</item>
+        <item>Солнечно</item>
+        <item>Переменная облачность</item>
+        <item>Ожидаются заморозки</item>
+        <item>Солнечно</item>
+        <item>Пасмурно</item>
+        <item>Дождь со снегом</item>
+        <item>Солнечно</item>
+        <item>Переменная облачность</item>
     </string-array>
 
     <string-array name="Temperatures">
@@ -40,6 +74,38 @@
         <item>15</item>
         <item>2</item>
         <item>17</item>
+        <item>15</item>
+        <item>10</item>
+        <item>19</item>
+        <item>15</item>
+        <item>2</item>
+        <item>17</item>
+        <item>15</item>
+        <item>10</item>
+        <item>19</item>
+        <item>15</item>
     </string-array>
+
+    <string-array name="Days">
+        <item>Вчера:</item>
+        <item>Позавчера:</item>
+        <item>3 дня назад:</item>
+        <item>4 дня назад:</item>
+        <item>5 дней назад:</item>
+        <item>6 дней назад:</item>
+        <item>Неделю назад:</item>
+    </string-array>
+
+    <string-array name="TemperaturesByDays">
+        <item>+20</item>
+        <item>+19</item>
+        <item>+19</item>
+        <item>+15</item>
+        <item>+17</item>
+        <item>+15</item>
+        <item>+13</item>
+        <item>+7</item>
+    </string-array>
+
 
 </resources>

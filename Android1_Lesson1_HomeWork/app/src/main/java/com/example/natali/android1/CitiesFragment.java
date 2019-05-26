@@ -2,41 +2,45 @@ package com.example.natali.android1;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-public class CitiesFragment extends ListFragment {
+public class CitiesFragment extends Fragment {
 
     private static final String KEY_POSITION = "Position";
     private static final String KEY_NAME = "CityName";
     private int position;
     private String name;
 
-    // При создании фрагмента укажем его макет
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_cities, container, false);
-    }
+        final View layout = inflater.inflate(R.layout.fragment_cities, container, false);
 
-    // Активити создана, можно к ней обращаться. Выполним начальные действия
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = layout.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        // Для того, чтобы показать список, надо задействовать адаптер.
-        // Такая конструкция работает для списков - например, ListActivity.
-        // Создаем из ресурсов список городов
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.Cities, android.R.layout.simple_list_item_activated_1);
-
-        setListAdapter(adapter);
+        initRecyclerView(layout);
+        return layout;
     }
 
     @Override
@@ -46,13 +50,27 @@ public class CitiesFragment extends ListFragment {
         outState.putString(KEY_NAME, name);
     }
 
-    // Обработка выбора позиции
     @Override
-    public void onListItemClick(ListView l, View view, int position, long id) {
-        TextView cityNameView = (TextView) view;
-        this.position = position;
-        this.name = cityNameView.getText().toString();
-        showWeather(position, name);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_cities, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                searchCity();
+                return true;
+            case R.id.menu_info:
+                showInfoAboutApp();
+                return true;
+            case R.id.menu_exit:
+                exit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void showWeather(int position, String name) {
@@ -63,5 +81,40 @@ public class CitiesFragment extends ListFragment {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    private void searchCity() {
+        Toast.makeText(getActivity(), "Поиск города", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showInfoAboutApp() {
+        Toast.makeText(getActivity(), "Информация о приложении", Toast.LENGTH_SHORT).show();
+    }
+
+    private void exit() {
+        Toast.makeText(getActivity(), "Выход", Toast.LENGTH_SHORT).show();
+    }
+
+    public void initRecyclerView(View layout) {
+        CardCitiesBuilder builder = new CardCitiesBuilder(getResources());
+        RecyclerView recyclerView = layout.findViewById(R.id.recycler_view_cities);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        AdapterCities adapterCities = new AdapterCities(builder.build());
+        recyclerView.setAdapter(adapterCities);
+
+        final CitiesFragment citiesFragment = this;
+        adapterCities.SetOnItemClickListener(new AdapterCities.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                citiesFragment.position = position;
+                String[] cities = getResources().getStringArray(R.array.Cities);
+                citiesFragment.name = cities[position];
+                showWeather(position, name);
+            }
+        });
     }
 }
