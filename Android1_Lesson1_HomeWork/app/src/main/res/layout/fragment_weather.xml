@@ -49,26 +49,18 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="4"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/textViewTemperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/temperature"
-                    android:textSize="40sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/degrees"
-                    android:textSize="20sp"/>
+                <com.example.natali.android1.TemperatureView
+                    android:id="@+id/temperatureView"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="7"
+                android:layout_weight="6"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -101,5 +93,26 @@
             android:background="@drawable/custom_button"
             android:text="@string/check_temperature"
             android:textColor="@color/colorAccent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/sensor_proximity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="proximity"/>
+
+            <TextView
+                android:id="@+id/sensor_pressure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="pressure"/>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
