@@ -22,19 +22,19 @@ import java.util.Date;
 public class WeatherFragment extends Fragment {
     private static final String KEY_POSITION = "Position";
     private static final String KEY_NAME = "CityName";
-    Sensor sensorProximity;
-    Sensor sensorPressure;
-    TextView textProximity;
-    TextView textPressure;
-    SensorManager sensorManager;
+    private Sensor sensorProximity;
+    private Sensor sensorPressure;
+    private TextView textProximity;
+    private TextView textPressure;
+    private SensorManager sensorManager;
 
     SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor == sensorProximity) {
-                showSensorTemperature(event);
+                showSensorProximity(event);
             } else if (event.sensor == sensorPressure) {
-                showSensorHumidity(event);
+                showSensorPressure(event);
             }
         }
 
@@ -77,7 +77,7 @@ public class WeatherFragment extends Fragment {
 
         TextView cityNameView = layout.findViewById(R.id.textViewCity);
         TextView weatherView = layout.findViewById(R.id.textViewWeather);
-        TemperatureView temperatureView = layout.findViewById(R.id.customTextView);
+        TemperatureView temperatureView = layout.findViewById(R.id.temperatureView);
         TextView textViewData = (TextView) layout.findViewById(R.id.textViewData);
 
         cityNameView.setText(getName());
@@ -107,23 +107,28 @@ public class WeatherFragment extends Fragment {
 
         textProximity = layout.findViewById(R.id.sensor_proximity);
         sensorProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        sensorManager.registerListener(listener, sensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
 
         textPressure = layout.findViewById(R.id.sensor_pressure);
         sensorPressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        sensorManager.registerListener(listener, sensorPressure, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    private void showSensorTemperature(SensorEvent event) {
+    private void showSensorProximity(SensorEvent event) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Proximity Sensor value = ").append(event.values[0]).append("\n");
+        stringBuilder.append("Proximity Sensor value = ").append(event.values[0]);
         textProximity.setText(stringBuilder);
     }
 
-    private void showSensorHumidity(SensorEvent event) {
+    private void showSensorPressure(SensorEvent event) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Pressure Sensor value = ").append(event.values[0]).append("\n");
+        stringBuilder.append("Pressure Sensor value = ").append(event.values[0]);
         textPressure.setText(stringBuilder);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.registerListener(listener, sensorProximity, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(listener, sensorPressure, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
