@@ -1,6 +1,5 @@
 package com.example.natali.android1;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
