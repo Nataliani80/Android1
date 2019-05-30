@@ -11,9 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.system.Os;
 
+import java.util.concurrent.TimeUnit;
+
 public class ServiceWeather extends IntentService {
 
     private int messageID  = 0;
+    public static final String CITY_NAME = "cityName";
 
     public ServiceWeather() {
         super("ServiceWeather");
@@ -21,6 +24,7 @@ public class ServiceWeather extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        String cityName = intent.getExtras().getString(CITY_NAME);
         makeNote("onHandleIntentBefore");
 
         try {
@@ -28,7 +32,7 @@ public class ServiceWeather extends IntentService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        makeNote("onHandleIntentAfter");
+        makeNote("onHandleIntentAfter in the city " + cityName);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class ServiceWeather extends IntentService {
     }
 
     @Override
-    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+    public int onStartCommand(@Nullable final Intent intent, int flags, int startId) {
         makeNote("onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }

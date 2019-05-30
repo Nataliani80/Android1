@@ -1,5 +1,6 @@
 package com.example.natali.android1;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -146,7 +147,9 @@ public class WeatherFragment extends Fragment {
             public void onClick(View v) {
                 showTemperature(getName());
 
-                getActivity().startService(new Intent(getActivity(), ServiceWeather.class));
+                Intent intent = new Intent(getActivity(), ServiceWeather.class);
+                intent.putExtra(ServiceWeather.CITY_NAME, getName());
+                getActivity().startService(intent);
             }
         });
     }
