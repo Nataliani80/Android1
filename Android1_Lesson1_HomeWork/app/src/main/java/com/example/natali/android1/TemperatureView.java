@@ -13,6 +13,7 @@ public class TemperatureView extends View {
     private Paint paintDegreesSymbol;
     private String temperature;
     private String degreesSymbol;
+    private String wind;
 
     public TemperatureView(Context context) {
         super(context);
@@ -47,13 +48,20 @@ public class TemperatureView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawText(temperature, 16, 160, paint);
-        float width = paint.measureText(temperature);
-        canvas.drawText(degreesSymbol, width + 40, 140, paintDegreesSymbol);
+        if(temperature != null) {
+            canvas.drawText(temperature, 16, 160, paint);
+            float width = paint.measureText(temperature);
+            canvas.drawText(degreesSymbol, width + 40, 140, paintDegreesSymbol);
+        }
     }
 
     public void setTemperature(String temp) {
         this.temperature = temp;
+        postInvalidate();
+    }
+
+    public void setWind(String wind_speed) {
+        this.wind = wind_speed;
         postInvalidate();
     }
 }

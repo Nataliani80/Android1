@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content">
 
                 <com.example.natali.android1.TemperatureView
-                    android:id="@+id/temperatureView"
+                    android:id="@+id/current_temperature"
                     android:layout_width="200dp"
                     android:layout_height="100dp" />
             </LinearLayout>

@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content">
 
                 <com.example.natali.android1.TemperatureView
-                    android:id="@+id/temperatureView"
+                    android:id="@+id/current_temperature"
                     android:layout_width="200dp"
                     android:layout_height="100dp" />
             </LinearLayout>
@@ -71,12 +71,14 @@
                     style="@style/SecondStyle"/>
 
                 <TextView
+                    android:id="@+id/current_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/humidity"
                     style="@style/SecondStyle"/>
 
                 <TextView
+                    android:id="@+id/current_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wind"

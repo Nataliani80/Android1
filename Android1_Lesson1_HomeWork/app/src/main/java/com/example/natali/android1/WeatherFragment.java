@@ -18,6 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,6 +32,9 @@ public class WeatherFragment extends Fragment {
     private Sensor sensorPressure;
     private TextView textProximity;
     private TextView textPressure;
+    private TemperatureView currentTemperature;
+    private TextView currentWind;
+    private TextView currentHumidity;
     private SensorManager sensorManager;
 
     SensorEventListener listener = new SensorEventListener() {
@@ -79,13 +86,15 @@ public class WeatherFragment extends Fragment {
 
         TextView cityNameView = layout.findViewById(R.id.textViewCity);
         TextView weatherView = layout.findViewById(R.id.textViewWeather);
-        TemperatureView temperatureView = layout.findViewById(R.id.temperatureView);
+        currentTemperature = layout.findViewById(R.id.current_temperature);
         TextView textViewData = (TextView) layout.findViewById(R.id.textViewData);
+        currentWind = layout.findViewById(R.id.current_wind);
+        currentHumidity = layout.findViewById(R.id.current_humidity);
+
 
         cityNameView.setText(getName());
         weatherView.setText(weather[getPosition()]);
-        temperatureView.setTemperature(temperature[getPosition()]);
-        temperatureView.setColor(getResources().getColor(R.color.colorPrimaryDark));
+        currentTemperature.setColor(getResources().getColor(R.color.colorPrimaryDark));
         textViewData.setText(data);
 
         createSensors(layout);
@@ -159,10 +168,27 @@ public class WeatherFragment extends Fragment {
         OkHttpRequester okHttpRequester = new OkHttpRequester(new OkHttpRequester.OnResponseCompleted() {
             @Override
             public void onCompleted(String content) {
+                showWeather(content);
                 Log.e("TEMP", content);
             }
         });
         okHttpRequester.load("https://api.weatherbit.io/v2.0/current?city=" + cityName +
                 ",RU&key=a2755975c69d45a0843ea950c79402cd");
+    }
+
+    private void showWeather(String jsonResponseString) {
+        try {
+            JSONObject jsonResponse = new JSONObject(jsonResponseString);
+            JSONArray array = jsonResponse.getJSONArray("data");
+            JSONObject jsonWeatherData = array.getJSONObject(0);
+            double temp = jsonWeatherData.getDouble("temp");
+            currentTemperature.setTemperature(String.valueOf(temp));
+            double wind_spd = jsonWeatherData.getDouble("wind_spd");
+            currentTemperature.setWind(String.valueOf(wind_spd));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
