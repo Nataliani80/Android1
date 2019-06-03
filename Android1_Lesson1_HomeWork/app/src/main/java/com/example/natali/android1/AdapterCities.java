@@ -40,7 +40,7 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
         void onItemClick(View view, int position);
     }
 
-    public void SetOnItemClickListener(OnItemClickListener itemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 

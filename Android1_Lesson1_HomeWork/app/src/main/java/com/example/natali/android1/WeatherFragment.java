@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class WeatherFragment extends Fragment {
 
         createSensors(layout);
         createButton(layout);
+        loadCurrentWeatherData(getName());
         return layout;
     }
 
@@ -151,5 +153,16 @@ public class WeatherFragment extends Fragment {
                 getActivity().startService(intent);
             }
         });
+    }
+
+    private void loadCurrentWeatherData(String cityName) {
+        OkHttpRequester okHttpRequester = new OkHttpRequester(new OkHttpRequester.OnResponseCompleted() {
+            @Override
+            public void onCompleted(String content) {
+                Log.e("TEMP", content);
+            }
+        });
+        okHttpRequester.load("https://api.weatherbit.io/v2.0/current?city=" + cityName +
+                ",RU&key=a2755975c69d45a0843ea950c79402cd");
     }
 }
