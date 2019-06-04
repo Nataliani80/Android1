@@ -60,8 +60,4 @@ public class TemperatureView extends View {
         postInvalidate();
     }
 
-    public void setWind(String wind_speed) {
-        this.wind = wind_speed;
-        postInvalidate();
-    }
 }

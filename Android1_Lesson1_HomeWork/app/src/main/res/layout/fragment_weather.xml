@@ -23,7 +23,6 @@
             android:id="@+id/textViewCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/city_and_region"
             android:textSize="26sp"
             android:textColor="@color/colorPrimaryDark"
             android:paddingTop="20dp"/>
@@ -42,6 +41,12 @@
             android:textColor="@color/colorPrimaryDark"
             android:paddingBottom="20dp"/>
 
+        <TextView
+            android:id="@+id/current_feelLike_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +54,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="4"
+                android:layout_weight="3"
                 android:layout_height="wrap_content">
 
                 <com.example.natali.android1.TemperatureView
@@ -60,7 +65,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="6"
+                android:layout_weight="7"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -68,20 +73,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/probability_of_precipitation"
+                    android:gravity="right"
                     style="@style/SecondStyle"/>
 
                 <TextView
                     android:id="@+id/current_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/humidity"
+                    android:gravity="right"
                     style="@style/SecondStyle"/>
 
                 <TextView
                     android:id="@+id/current_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wind"
+                    android:gravity="right"
                     style="@style/SecondStyle"/>
 
             </LinearLayout>

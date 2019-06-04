@@ -9,8 +9,8 @@
     <string name="temperature">15</string>
     <string name="degrees">C | F</string>
     <string name="probability_of_precipitation">Probability of precipitation: 0%</string>
-    <string name="humidity">Humidity: 87%</string>
-    <string name="wind">Wind: 2 м/с</string>
+    <string name="humidity">Relative humidity: %1$d %%</string>
+    <string name="wind">Wind: %1$s %2$.2f м/с</string>
     <string name="city_request">Enter the name of the city</string>
     <string name="check_weather">Check the weather</string>
     <string name="empty">The list of cities is empty</string>
@@ -24,6 +24,7 @@
     <string name="map">Map</string>
     <string name="about_developer">About developer</string>
     <string name="feedback">Feedback</string>
+    <string name="feel_like">Feels like %1$d °C</string>
     <string name="share">Share</string>
     <string name="menu_title">Communicate</string>
     <string name="navigation_drawer_open">open</string>

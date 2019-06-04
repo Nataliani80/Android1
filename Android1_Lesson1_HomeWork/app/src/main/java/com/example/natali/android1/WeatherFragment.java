@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class WeatherFragment extends Fragment {
     private static final String KEY_POSITION = "Position";
@@ -35,6 +36,7 @@ public class WeatherFragment extends Fragment {
     private TemperatureView currentTemperature;
     private TextView currentWind;
     private TextView currentHumidity;
+    private TextView currentFeelLikeWeather;
     private SensorManager sensorManager;
 
     SensorEventListener listener = new SensorEventListener() {
@@ -90,7 +92,7 @@ public class WeatherFragment extends Fragment {
         TextView textViewData = (TextView) layout.findViewById(R.id.textViewData);
         currentWind = layout.findViewById(R.id.current_wind);
         currentHumidity = layout.findViewById(R.id.current_humidity);
-
+        currentFeelLikeWeather = layout.findViewById(R.id.current_feelLike_weather);
 
         cityNameView.setText(getName());
         weatherView.setText(weather[getPosition()]);
@@ -173,7 +175,7 @@ public class WeatherFragment extends Fragment {
             }
         });
         okHttpRequester.load("https://api.weatherbit.io/v2.0/current?city=" + cityName +
-                ",RU&key=a2755975c69d45a0843ea950c79402cd");
+                ",RU&&lang=" + Locale.getDefault().getLanguage() + "&key=a2755975c69d45a0843ea950c79402cd");
     }
 
     private void showWeather(String jsonResponseString) {
@@ -181,12 +183,15 @@ public class WeatherFragment extends Fragment {
             JSONObject jsonResponse = new JSONObject(jsonResponseString);
             JSONArray array = jsonResponse.getJSONArray("data");
             JSONObject jsonWeatherData = array.getJSONObject(0);
-            double temp = jsonWeatherData.getDouble("temp");
-            currentTemperature.setTemperature(String.valueOf(temp));
-            double wind_spd = jsonWeatherData.getDouble("wind_spd");
-            currentTemperature.setWind(String.valueOf(wind_spd));
-
-
+            int temperature = (int)jsonWeatherData.getDouble("temp");
+            currentTemperature.setTemperature(String.valueOf(temperature));
+            double windSpeed = jsonWeatherData.getDouble("wind_spd");
+            String windDirection = jsonWeatherData.getString("wind_cdir_full");
+            currentWind.setText(getResources().getString(R.string.wind, windDirection, windSpeed));
+            int relativeHumidity = jsonWeatherData.getInt("rh");
+            currentHumidity.setText(getResources().getString(R.string.humidity, relativeHumidity));
+            int apparentTemperature = (int)jsonWeatherData.getDouble("app_temp");
+            currentFeelLikeWeather.setText(getResources().getString(R.string.feel_like, apparentTemperature));
         } catch (JSONException e) {
             e.printStackTrace();
         }

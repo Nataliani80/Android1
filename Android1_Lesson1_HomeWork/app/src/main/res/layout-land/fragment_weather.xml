@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/city_and_region"
             android:textSize="30sp"
             android:textColor="@color/colorPrimaryDark"
             android:paddingTop="20dp"/>
@@ -47,6 +46,12 @@
             android:text="@string/weather"
             android:textColor="@color/colorPrimaryDark"
             android:paddingBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/current_feelLike_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,17 +83,18 @@
                     style="@style/SecondStyle"/>
 
                 <TextView
+                    android:id="@+id/current_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/humidity"
                     android:textSize="18sp"
                     style="@style/SecondStyle"/>
 
                 <TextView
+                    android:id="@+id/current_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/wind"
                     android:textSize="18sp"
+                    android:gravity="right"
                     style="@style/SecondStyle"/>
 
             </LinearLayout>
