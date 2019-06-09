@@ -7,7 +7,8 @@
     <string name="weather">Солнечно</string>
     <string name="temperature">15</string>
     <string name="degrees">C | F</string>
-    <string name="probability_of_precipitation">Вероятность осадков: 0%</string>
+    <string name="probability_of_precipitation">Вероятность осадков: %1$d %%</string>
+    <string name="probability_of_precipitation1">Вероятность осадков: 0%</string>
     <string name="humidity">Влажность:  %1$d %%</string>
     <string name="wind">Ветер: %1$s %2$.2f м/с</string>
     <string name="city_request">Введите название города</string>

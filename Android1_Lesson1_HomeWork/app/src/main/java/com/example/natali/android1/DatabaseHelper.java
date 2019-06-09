@@ -16,6 +16,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_CITY = "city";
 
+    //static final String TABLE_WEATHER_FORECAST = "weatherForecast";
+
     private static DatabaseHelper instance;
 
     public static DatabaseHelper getInstance(Context context) {
