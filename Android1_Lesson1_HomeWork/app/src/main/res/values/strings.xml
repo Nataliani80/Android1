@@ -8,8 +8,8 @@
     <string name="temperature">15</string>
     <string name="degrees">C | F</string>
     <string name="probability_of_precipitation">Вероятность осадков: 0%</string>
-    <string name="humidity">Влажность: 87%</string>
-    <string name="wind">Ветер: 2 м/с</string>
+    <string name="humidity">Влажность:  %1$d %%</string>
+    <string name="wind">Ветер: %1$s %2$.2f м/с</string>
     <string name="city_request">Введите название города</string>
     <string name="check_weather">Узнать погоду</string>
     <string name="empty">Список городов пуст</string>
@@ -23,6 +23,8 @@
     <string name="map">Карта</string>
     <string name="about_developer">О разработчике</string>
     <string name="feedback">Форма обратной связи</string>
+    <string name="feel_like">Ощущается как %1$d °C</string>
+
     <string name="share">Поделиться</string>
     <string name="menu_title">Связь</string>
     <string name="navigation_drawer_open">open</string>

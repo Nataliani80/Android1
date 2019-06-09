@@ -11,14 +11,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class WeatherFragment extends Fragment {
     private static final String KEY_POSITION = "Position";
@@ -27,6 +33,10 @@ public class WeatherFragment extends Fragment {
     private Sensor sensorPressure;
     private TextView textProximity;
     private TextView textPressure;
+    private TemperatureView currentTemperature;
+    private TextView currentWind;
+    private TextView currentHumidity;
+    private TextView currentFeelLikeWeather;
     private SensorManager sensorManager;
 
     SensorEventListener listener = new SensorEventListener() {
@@ -78,17 +88,20 @@ public class WeatherFragment extends Fragment {
 
         TextView cityNameView = layout.findViewById(R.id.textViewCity);
         TextView weatherView = layout.findViewById(R.id.textViewWeather);
-        TemperatureView temperatureView = layout.findViewById(R.id.temperatureView);
+        currentTemperature = layout.findViewById(R.id.current_temperature);
         TextView textViewData = (TextView) layout.findViewById(R.id.textViewData);
+        currentWind = layout.findViewById(R.id.current_wind);
+        currentHumidity = layout.findViewById(R.id.current_humidity);
+        currentFeelLikeWeather = layout.findViewById(R.id.current_feelLike_weather);
 
         cityNameView.setText(getName());
         weatherView.setText(weather[getPosition()]);
-        temperatureView.setTemperature(temperature[getPosition()]);
-        temperatureView.setColor(getResources().getColor(R.color.colorPrimaryDark));
+        currentTemperature.setColor(getResources().getColor(R.color.colorPrimaryDark));
         textViewData.setText(data);
 
         createSensors(layout);
         createButton(layout);
+        loadCurrentWeatherData(getName());
         return layout;
     }
 
@@ -151,5 +164,36 @@ public class WeatherFragment extends Fragment {
                 getActivity().startService(intent);
             }
         });
+    }
+
+    private void loadCurrentWeatherData(String cityName) {
+        OkHttpRequester okHttpRequester = new OkHttpRequester(new OkHttpRequester.OnResponseCompleted() {
+            @Override
+            public void onCompleted(String content) {
+                showWeather(content);
+                Log.e("TEMP", content);
+            }
+        });
+        okHttpRequester.load("https://api.weatherbit.io/v2.0/current?city=" + cityName +
+                ",RU&&lang=" + Locale.getDefault().getLanguage() + "&key=a2755975c69d45a0843ea950c79402cd");
+    }
+
+    private void showWeather(String jsonResponseString) {
+        try {
+            JSONObject jsonResponse = new JSONObject(jsonResponseString);
+            JSONArray array = jsonResponse.getJSONArray("data");
+            JSONObject jsonWeatherData = array.getJSONObject(0);
+            int temperature = (int)jsonWeatherData.getDouble("temp");
+            currentTemperature.setTemperature(String.valueOf(temperature));
+            double windSpeed = jsonWeatherData.getDouble("wind_spd");
+            String windDirection = jsonWeatherData.getString("wind_cdir_full");
+            currentWind.setText(getResources().getString(R.string.wind, windDirection, windSpeed));
+            int relativeHumidity = jsonWeatherData.getInt("rh");
+            currentHumidity.setText(getResources().getString(R.string.humidity, relativeHumidity));
+            int apparentTemperature = (int)jsonWeatherData.getDouble("app_temp");
+            currentFeelLikeWeather.setText(getResources().getString(R.string.feel_like, apparentTemperature));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

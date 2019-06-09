@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,11 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 public class CitiesFragment extends Fragment {
-
-    private static final String KEY_POSITION = "Position";
-    private static final String KEY_NAME = "CityName";
-    private int position;
-    private String name;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,13 +37,6 @@ public class CitiesFragment extends Fragment {
 
         initRecyclerView(layout);
         return layout;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(KEY_POSITION, position);
-        outState.putString(KEY_NAME, name);
     }
 
     @Override
@@ -106,14 +95,11 @@ public class CitiesFragment extends Fragment {
         AdapterCities adapterCities = new AdapterCities(builder.build());
         recyclerView.setAdapter(adapterCities);
 
-        final CitiesFragment citiesFragment = this;
-        adapterCities.SetOnItemClickListener(new AdapterCities.OnItemClickListener() {
+        adapterCities.setOnItemClickListener(new AdapterCities.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                citiesFragment.position = position;
                 String[] cities = getResources().getStringArray(R.array.Cities);
-                citiesFragment.name = cities[position];
-                showWeather(position, name);
+                showWeather(position, cities[position]);
             }
         });
     }
