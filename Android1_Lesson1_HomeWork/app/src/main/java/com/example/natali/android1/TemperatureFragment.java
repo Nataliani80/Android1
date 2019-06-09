@@ -6,17 +6,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class TemperatureFragment extends Fragment {
 
     private static final String KEY_NAME = "CityName";
+    RecyclerView recyclerView;
+
 
     public static TemperatureFragment create(String name) {
         TemperatureFragment temperatureFragment = new TemperatureFragment();
@@ -48,19 +57,55 @@ public class TemperatureFragment extends Fragment {
         cityNameView.setText(getName());
         textViewData.setText(data);
 
-        configureRecyclerView(layout);
-        return layout;
-    }
-
-    private void configureRecyclerView(View layout) {
-        CardTemperaturesBuilder builder = new CardTemperaturesBuilder(getResources());
-        RecyclerView recyclerView = layout.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-
+        recyclerView = layout.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        AdapterTemperatures adapterTemperatures = new AdapterTemperatures(builder.build());
+        loadDetailWeatherData(getName());
+        return layout;
+    }
+
+    private void loadDetailWeatherData(String cityName) {
+        OkHttpRequester okHttpRequester = new OkHttpRequester(new OkHttpRequester.OnResponseCompleted() {
+            @Override
+            public void onCompleted(String content) {
+                showWeather(content);
+                Log.e("TEMP", content);
+            }
+        });
+        okHttpRequester.load("https://api.weatherbit.io/v2.0/forecast/daily?city=" + cityName +
+                ",RU&&lang=" + Locale.getDefault().getLanguage()
+                + "&key=a2755975c69d45a0843ea950c79402cd");
+    }
+
+    private void showWeather(String jsonResponseString) {
+        try {
+            JSONObject jsonResponse = new JSONObject(jsonResponseString);
+            ArrayList<WeatherForecast> forecastList = new ArrayList<>();
+            JSONArray array = jsonResponse.getJSONArray("data");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject jsonWeatherData = array.getJSONObject(i);
+                String day = jsonWeatherData.getString("valid_date");
+                int temperature = (int)jsonWeatherData.getDouble("temp");
+                JSONObject weather = jsonWeatherData.getJSONObject("weather");
+                String description = weather.getString("description");
+                int probabilityOfPrecipitation = jsonWeatherData.getInt("pop");
+                double windSpeed = jsonWeatherData.getDouble("wind_spd");
+                String windDirection = jsonWeatherData.getString("wind_cdir_full");
+
+                WeatherForecast forecast = new WeatherForecast(day, temperature, description,
+                        probabilityOfPrecipitation, windSpeed, windDirection);
+                forecastList.add(forecast);
+            }
+            configureRecyclerView(forecastList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void configureRecyclerView(ArrayList<WeatherForecast> forecastList) {
+        AdapterTemperatures adapterTemperatures = new AdapterTemperatures(forecastList);
         recyclerView.setAdapter(adapterTemperatures);
     }
+
 }

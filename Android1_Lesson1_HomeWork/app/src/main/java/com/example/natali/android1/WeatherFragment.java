@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class WeatherFragment extends Fragment {
+
     private static final String KEY_POSITION = "Position";
     private static final String KEY_NAME = "CityName";
     private Sensor sensorProximity;
