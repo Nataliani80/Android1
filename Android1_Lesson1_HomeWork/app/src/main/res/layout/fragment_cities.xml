@@ -47,6 +47,14 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <Button
+        android:id="@+id/new_city_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_city"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/LightBlue" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_cities"
         android:layout_width="match_parent"

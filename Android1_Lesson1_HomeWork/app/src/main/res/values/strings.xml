@@ -24,6 +24,8 @@
     <string name="about_developer">О разработчике</string>
     <string name="feedback">Форма обратной связи</string>
     <string name="feel_like">Ощущается как %1$d °C</string>
+    <string name="add_city">Добавить город</string>
+    <string name="add">Добавить</string>
 
     <string name="share">Поделиться</string>
     <string name="menu_title">Связь</string>
