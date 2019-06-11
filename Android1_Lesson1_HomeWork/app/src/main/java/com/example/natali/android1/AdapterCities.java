@@ -10,14 +10,14 @@ import java.util.List;
 
 public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolderCity> {
 
-    private List<CardCities> cities;
+    private List<City> cities;
     private OnItemClickListener itemClickListener;
 
-    public class ViewHolderCity extends RecyclerView.ViewHolder {
+    class ViewHolderCity extends RecyclerView.ViewHolder {
 
-        public TextView tvCity;
+        private TextView tvCity;
 
-        public ViewHolderCity(View rootView) {
+        ViewHolderCity(View rootView) {
             super(rootView);
             tvCity = rootView.findViewById(R.id.textViewCity);
 
@@ -31,8 +31,8 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
             });
         }
 
-        public void bind(CardCities city) {
-            this.tvCity.setText(city.getCity());
+        void bind(City city) {
+            this.tvCity.setText(city.getName());
         }
     }
 
@@ -40,11 +40,11 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
         void onItemClick(View view, int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+    void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
-    public AdapterCities(List<CardCities> cities) {
+    AdapterCities(List<City> cities) {
         this.cities = cities;
     }
 
@@ -57,7 +57,7 @@ public class AdapterCities extends RecyclerView.Adapter<AdapterCities.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolderCity viewHolder, int position) {
-        CardCities item = cities.get(position);
+        City item = cities.get(position);
         viewHolder.bind(item);
     }
 

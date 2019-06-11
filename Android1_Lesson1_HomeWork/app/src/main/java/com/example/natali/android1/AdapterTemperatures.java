@@ -1,5 +1,6 @@
 package com.example.natali.android1;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +11,39 @@ import java.util.List;
 
 public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperatures.ViewHolder> {
 
-    private List<CardTemperatures> data;
+    private List<WeatherForecast> data;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView daysOfWeek;
-        public TextView temperatures;
+        private TextView forecastDate;
+        private TextView forecastTemperature;
+        private TextView forecastDescription;
+        private TextView forecastProbabilityOfPrecipitation;
+        private TextView forecastWind;
 
-        public ViewHolder(View rootView) {
+        ViewHolder(View rootView) {
             super(rootView);
-            daysOfWeek = rootView.findViewById(R.id.textViewTemperatureByDays);
-            temperatures = rootView.findViewById(R.id.temperatures);
+            forecastDate = rootView.findViewById(R.id.textViewTemperatureByDays);
+            forecastTemperature = rootView.findViewById(R.id.temperatures);
+            forecastDescription = rootView.findViewById(R.id.forecast_description);
+            forecastProbabilityOfPrecipitation = rootView.findViewById(R.id.forecast_pop);
+            forecastWind = rootView.findViewById(R.id.forecast_wind);
+        }
+
+        void bind(WeatherForecast weatherForecast) {
+            forecastDate.setText(weatherForecast.getForecastDate());
+            this.forecastTemperature.setText(String.valueOf(weatherForecast.getForecastTemperature()));
+            this.forecastDescription.setText(weatherForecast.getForecastDescription());
+            Resources resources = forecastWind.getResources();
+            this.forecastProbabilityOfPrecipitation.setText(
+                    resources.getString(R.string.probability_of_precipitation,
+                            weatherForecast.getForecastProbabilityOfPrecipitation()));
+            this.forecastWind.setText(resources.getString(R.string.wind,
+                    weatherForecast.getForecastWindDirection(), weatherForecast.getForecastSpeedWind()));
         }
     }
 
-    public AdapterTemperatures(List<CardTemperatures> data) {
+    AdapterTemperatures(List<WeatherForecast> data) {
         this.data = data;
     }
 
@@ -38,9 +57,8 @@ public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperature
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        CardTemperatures item = data.get(position);
-        viewHolder.daysOfWeek.setText(item.getDayOfWeek());
-        viewHolder.temperatures.setText(item.getTemperatures());
+        WeatherForecast item = data.get(position);
+        viewHolder.bind(item);
     }
 
     @Override

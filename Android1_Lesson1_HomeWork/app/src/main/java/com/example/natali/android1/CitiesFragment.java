@@ -1,7 +1,6 @@
 package com.example.natali.android1;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,14 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class CitiesFragment extends Fragment {
 
@@ -34,8 +35,9 @@ public class CitiesFragment extends Fragment {
 
         Toolbar toolbar = layout.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        initRecyclerView(layout);
+        addCityButton(layout);
+        ArrayList<City> cities = requestData();
+        initRecyclerView(layout, cities);
         return layout;
     }
 
@@ -62,14 +64,22 @@ public class CitiesFragment extends Fragment {
         }
     }
 
-    private void showWeather(int position, String name) {
-        WeatherFragment detail = WeatherFragment.create(position, name);
-
+    private void replaceFragment(Fragment fragment) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, detail);  // замена фрагмента
+        ft.replace(R.id.fragment_container, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    private void showWeather(int position, String name) {
+        WeatherFragment detail = WeatherFragment.create(position, name);
+        replaceFragment(detail);
+    }
+
+    private void addCity(){
+        AddCityFragment addCity = AddCityFragment.create();
+        replaceFragment(addCity);
     }
 
     private void searchCity() {
@@ -84,22 +94,36 @@ public class CitiesFragment extends Fragment {
         Toast.makeText(getActivity(), "Выход", Toast.LENGTH_SHORT).show();
     }
 
-    public void initRecyclerView(View layout) {
-        CardCitiesBuilder builder = new CardCitiesBuilder(getResources());
+    private ArrayList<City> requestData() {
+        DatabaseHelper db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
+        return db.query();
+    }
+
+    public void initRecyclerView(View layout, final ArrayList<City> cities) {
         RecyclerView recyclerView = layout.findViewById(R.id.recycler_view_cities);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        AdapterCities adapterCities = new AdapterCities(builder.build());
+        AdapterCities adapterCities = new AdapterCities(cities);
         recyclerView.setAdapter(adapterCities);
 
         adapterCities.setOnItemClickListener(new AdapterCities.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String[] cities = getResources().getStringArray(R.array.Cities);
-                showWeather(position, cities[position]);
+                City city = cities.get(position);
+                showWeather(position, city.getName());
+            }
+        });
+    }
+
+    private void addCityButton(View layout) {
+        Button addCityButton = layout.findViewById(R.id.new_city_button);
+        addCityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCity();
             }
         });
     }
