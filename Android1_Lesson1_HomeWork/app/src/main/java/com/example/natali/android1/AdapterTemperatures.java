@@ -13,7 +13,7 @@ public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperature
 
     private List<WeatherForecast> data;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView forecastDate;
         private TextView forecastTemperature;
@@ -21,9 +21,7 @@ public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperature
         private TextView forecastProbabilityOfPrecipitation;
         private TextView forecastWind;
 
-
-
-        public ViewHolder(View rootView) {
+        ViewHolder(View rootView) {
             super(rootView);
             forecastDate = rootView.findViewById(R.id.textViewTemperatureByDays);
             forecastTemperature = rootView.findViewById(R.id.temperatures);
@@ -31,9 +29,21 @@ public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperature
             forecastProbabilityOfPrecipitation = rootView.findViewById(R.id.forecast_pop);
             forecastWind = rootView.findViewById(R.id.forecast_wind);
         }
+
+        void bind(WeatherForecast weatherForecast) {
+            forecastDate.setText(weatherForecast.getForecastDate());
+            this.forecastTemperature.setText(String.valueOf(weatherForecast.getForecastTemperature()));
+            this.forecastDescription.setText(weatherForecast.getForecastDescription());
+            Resources resources = forecastWind.getResources();
+            this.forecastProbabilityOfPrecipitation.setText(
+                    resources.getString(R.string.probability_of_precipitation,
+                            weatherForecast.getForecastProbabilityOfPrecipitation()));
+            this.forecastWind.setText(resources.getString(R.string.wind,
+                    weatherForecast.getForecastWindDirection(), weatherForecast.getForecastSpeedWind()));
+        }
     }
 
-    public AdapterTemperatures(List<WeatherForecast> data) {
+    AdapterTemperatures(List<WeatherForecast> data) {
         this.data = data;
     }
 
@@ -48,15 +58,7 @@ public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperature
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         WeatherForecast item = data.get(position);
-        viewHolder.forecastDate.setText(item.getForecastDate());
-        viewHolder.forecastTemperature.setText(String.valueOf(item.getForecastTemperature()));
-        viewHolder.forecastDescription.setText(item.getForecastDescription());
-        Resources resources = viewHolder.forecastWind.getResources();
-        viewHolder.forecastProbabilityOfPrecipitation.setText(
-                resources.getString(R.string.probability_of_precipitation,
-                        item.getForecastProbabilityOfPrecipitation()));
-        viewHolder.forecastWind.setText(resources.getString(R.string.wind,
-                item.getForecastWindDirection(), item.getForecastSpeedWind()));
+        viewHolder.bind(item);
     }
 
     @Override

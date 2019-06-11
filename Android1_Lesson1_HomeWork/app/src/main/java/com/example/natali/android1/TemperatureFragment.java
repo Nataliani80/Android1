@@ -24,7 +24,7 @@ import java.util.Locale;
 public class TemperatureFragment extends Fragment {
 
     private static final String KEY_NAME = "CityName";
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
 
     public static TemperatureFragment create(String name) {

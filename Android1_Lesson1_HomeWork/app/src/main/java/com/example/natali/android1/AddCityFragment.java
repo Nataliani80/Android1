@@ -15,8 +15,7 @@ public class AddCityFragment extends Fragment {
     private EditText addCity;
 
     public static AddCityFragment create() {
-        AddCityFragment addCityFragment = new AddCityFragment();
-        return addCityFragment;
+        return new AddCityFragment();
     }
 
     @Nullable
