@@ -36,7 +36,8 @@ public class CitiesFragment extends Fragment {
         Toolbar toolbar = layout.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         addCityButton(layout);
-        initRecyclerView(layout);
+        ArrayList<City> cities = requestData();
+        initRecyclerView(layout, cities);
         return layout;
     }
 
@@ -63,22 +64,22 @@ public class CitiesFragment extends Fragment {
         }
     }
 
-    private void showWeather(int position, String name) {
-        WeatherFragment detail = WeatherFragment.create(position, name);
+    private void replaceFragment(Fragment fragment) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, detail);
+        ft.replace(R.id.fragment_container, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.addToBackStack(null);
         ft.commit();
     }
 
+    private void showWeather(int position, String name) {
+        WeatherFragment detail = WeatherFragment.create(position, name);
+        replaceFragment(detail);
+    }
+
     private void addCity(){
         AddCityFragment addCity = AddCityFragment.create();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, addCity);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.addToBackStack(null);
-        ft.commit();
+        replaceFragment(addCity);
     }
 
     private void searchCity() {
@@ -93,9 +94,12 @@ public class CitiesFragment extends Fragment {
         Toast.makeText(getActivity(), "Выход", Toast.LENGTH_SHORT).show();
     }
 
-    public void initRecyclerView(View layout) {
+    private ArrayList<City> requestData() {
         DatabaseHelper db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
-        final ArrayList<City> cities = db.query();
+        return db.query();
+    }
+
+    public void initRecyclerView(View layout, final ArrayList<City> cities) {
         RecyclerView recyclerView = layout.findViewById(R.id.recycler_view_cities);
         recyclerView.setHasFixedSize(true);
 
@@ -123,5 +127,4 @@ public class CitiesFragment extends Fragment {
             }
         });
     }
-
 }

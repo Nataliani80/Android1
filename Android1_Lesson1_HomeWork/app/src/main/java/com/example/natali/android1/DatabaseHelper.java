@@ -11,12 +11,20 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "weather.db";
-    public static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 1;
     static final String TABLE_CITIES = "cities";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_CITY = "city";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_CITY = "city";
 
-    //static final String TABLE_WEATHER_FORECAST = "weatherForecast";
+    static final String TABLE_WEATHER_FORECAST = "weatherForecast";
+    private static final String COLUMN_CITY_ID = "cityID";
+    private static final String COLUMN_DATE = "date";
+    private static final String COLUMN_TEMPERATURE = "temperature";
+    private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_PROBABILITY_OF_PRECIPITATION = "probabilityOfPrecipitation";
+    private static final String COLUMN_SPEED_WIND = "speedWind";
+    private static final String COLUMN_WIND_DIRECTION = "windDirection";
+
 
     private static DatabaseHelper instance;
 
@@ -34,6 +42,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_CITIES + " (" + COLUMN_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_CITY + " TEXT);");
+
+        db.execSQL("CREATE TABLE " + TABLE_WEATHER_FORECAST + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_CITY_ID + " TEXT, " + COLUMN_DATE + " TEXT, " + COLUMN_TEMPERATURE + " REAL, "
+                + COLUMN_DESCRIPTION + " TEXT, " + COLUMN_PROBABILITY_OF_PRECIPITATION + " REAL, "
+                + COLUMN_SPEED_WIND + " REAL, " + COLUMN_WIND_DIRECTION + " TEXT);");
     }
 
     @Override
@@ -58,11 +71,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void editCity(City city, String description) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues editedNote = new ContentValues();
-        editedNote.put(COLUMN_ID, city.getId());
-        editedNote.put(COLUMN_CITY, description);
+        ContentValues editCity = new ContentValues();
+        editCity.put(COLUMN_ID, city.getId());
+        editCity.put(COLUMN_CITY, description);
         db.update(TABLE_CITIES,
-                editedNote,
+                editCity,
                 COLUMN_ID + "=" + city.getId(),
                 null);
     }
