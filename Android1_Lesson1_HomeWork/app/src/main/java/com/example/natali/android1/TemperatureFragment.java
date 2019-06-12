@@ -108,4 +108,9 @@ public class TemperatureFragment extends Fragment {
         recyclerView.setAdapter(adapterTemperatures);
     }
 
+    private ArrayList<WeatherForecast> requestWeather() {
+        DatabaseHelper db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
+        return db.queryWeather();
+    }
+
 }
