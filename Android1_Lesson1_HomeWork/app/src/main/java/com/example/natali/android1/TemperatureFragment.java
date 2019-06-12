@@ -24,19 +24,25 @@ import java.util.Locale;
 public class TemperatureFragment extends Fragment {
 
     private static final String KEY_NAME = "CityName";
+    private static final String KEY_ID = "CityID";
     private RecyclerView recyclerView;
 
 
-    public static TemperatureFragment create(String name) {
+    public static TemperatureFragment create(String name, long id) {
         TemperatureFragment temperatureFragment = new TemperatureFragment();
         Bundle args = new Bundle();
         args.putString(KEY_NAME, name);
+        args.putLong(KEY_ID, id);
         temperatureFragment.setArguments(args);
         return temperatureFragment;
     }
 
     private String getName() {
         return getArguments().getString(KEY_NAME);
+    }
+
+    private long getCityId() {
+        return getArguments().getLong(KEY_ID);
     }
 
     public String dataNow() {
@@ -61,16 +67,18 @@ public class TemperatureFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        loadDetailWeatherData(getName());
+        loadDetailWeatherData(getName(), getCityId());
+        requestWeather(getCityId());
         return layout;
     }
 
-    private void loadDetailWeatherData(String cityName) {
+    private void loadDetailWeatherData(String cityName, long id) {
+        DatabaseHelper db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
+        configureRecyclerView(db.queryWeather(id));
         OkHttpRequester okHttpRequester = new OkHttpRequester(new OkHttpRequester.OnResponseCompleted() {
             @Override
             public void onCompleted(String content) {
                 showWeather(content);
-                Log.e("TEMP", content);
             }
         });
         okHttpRequester.load("https://api.weatherbit.io/v2.0/forecast/daily?city=" + cityName +
@@ -80,24 +88,29 @@ public class TemperatureFragment extends Fragment {
 
     private void showWeather(String jsonResponseString) {
         try {
-            JSONObject jsonResponse = new JSONObject(jsonResponseString);
-            ArrayList<WeatherForecast> forecastList = new ArrayList<>();
-            JSONArray array = jsonResponse.getJSONArray("data");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject jsonWeatherData = array.getJSONObject(i);
-                String day = jsonWeatherData.getString("valid_date");
-                int temperature = (int)jsonWeatherData.getDouble("temp");
-                JSONObject weather = jsonWeatherData.getJSONObject("weather");
-                String description = weather.getString("description");
-                int probabilityOfPrecipitation = jsonWeatherData.getInt("pop");
-                double windSpeed = jsonWeatherData.getDouble("wind_spd");
-                String windDirection = jsonWeatherData.getString("wind_cdir_full");
+            if (jsonResponseString != null) {
+                JSONObject jsonResponse = new JSONObject(jsonResponseString);
+                ArrayList<WeatherForecast> forecastList = new ArrayList<>();
+                JSONArray array = jsonResponse.getJSONArray("data");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonWeatherData = array.getJSONObject(i);
+                    String day = jsonWeatherData.getString("valid_date");
+                    int temperature = (int) jsonWeatherData.getDouble("temp");
+                    JSONObject weather = jsonWeatherData.getJSONObject("weather");
+                    String description = weather.getString("description");
+                    int probabilityOfPrecipitation = jsonWeatherData.getInt("pop");
+                    double windSpeed = jsonWeatherData.getDouble("wind_spd");
+                    String windDirection = jsonWeatherData.getString("wind_cdir_full");
 
-                WeatherForecast forecast = new WeatherForecast(day, temperature, description,
-                        probabilityOfPrecipitation, windSpeed, windDirection);
-                forecastList.add(forecast);
+                    WeatherForecast forecast = new WeatherForecast(day, temperature, description,
+                            probabilityOfPrecipitation, windSpeed, windDirection);
+                    forecastList.add(forecast);
+
+                    DatabaseHelper db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
+                    db.addWeather(getCityId(), day, temperature, description, probabilityOfPrecipitation, windSpeed, windDirection);
+                }
+                configureRecyclerView(forecastList);
             }
-            configureRecyclerView(forecastList);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -108,9 +121,9 @@ public class TemperatureFragment extends Fragment {
         recyclerView.setAdapter(adapterTemperatures);
     }
 
-    private ArrayList<WeatherForecast> requestWeather() {
+    private ArrayList<WeatherForecast> requestWeather(long id) {
         DatabaseHelper db = DatabaseHelper.getInstance(getActivity().getApplicationContext());
-        return db.queryWeather();
+        return db.queryWeather(id);
     }
 
 }

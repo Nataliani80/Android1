@@ -93,6 +93,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newWeatherForecast;
     }
 
+    private String[] allColumn = {
+            DatabaseHelper.COLUMN_CITY_ID,
+            DatabaseHelper.COLUMN_DATE,
+            DatabaseHelper.COLUMN_TEMPERATURE,
+            DatabaseHelper.COLUMN_DESCRIPTION,
+            DatabaseHelper.COLUMN_PROBABILITY_OF_PRECIPITATION,
+            DatabaseHelper.COLUMN_SPEED_WIND,
+            DatabaseHelper.COLUMN_WIND_DIRECTION
+    };
+
 
     public void editCity(City city, String description) {
         SQLiteDatabase db = getWritableDatabase();
@@ -154,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
         String selection = "cityID = " + cityID;
         Cursor cursorWeather = database.query(DatabaseHelper.TABLE_WEATHER_FORECAST,
-                notesAllColumn,
+                allColumn,
                 selection,
                 null,
                 null,
@@ -164,8 +174,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if(cursorWeather.moveToFirst()) {
                 do {
                     WeatherForecast weatherForecast = new WeatherForecast();
-                    weatherForecast.setIdWeather(cursorWeather.getLong
-                            (cursorWeather.getColumnIndex(COLUMN_ID)));
                     weatherForecast.setCityID(cursorWeather.getLong
                             (cursorWeather.getColumnIndex(COLUMN_CITY_ID)));
                     weatherForecast.setForecastDate(cursorWeather.getString

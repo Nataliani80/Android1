@@ -30,6 +30,7 @@ public class WeatherFragment extends Fragment {
 
     private static final String KEY_POSITION = "Position";
     private static final String KEY_NAME = "CityName";
+    private static final String KEY_ID = "CityID";
     private Sensor sensorProximity;
     private Sensor sensorPressure;
     private TextView textProximity;
@@ -55,11 +56,12 @@ public class WeatherFragment extends Fragment {
         }
     };
 
-    public static WeatherFragment create(int position, String name) {
+    public static WeatherFragment create(int position, String name, long id) {
         WeatherFragment weatherFragment = new WeatherFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         args.putString(KEY_NAME, name);
+        args.putLong(KEY_ID, id);
         weatherFragment.setArguments(args);
         return weatherFragment;
     }
@@ -76,6 +78,10 @@ public class WeatherFragment extends Fragment {
 
     public String getName() {
         return getArguments().getString(KEY_NAME);
+    }
+
+    public long getCityId() {
+        return getArguments().getLong(KEY_ID);
     }
 
     @Nullable
@@ -106,9 +112,9 @@ public class WeatherFragment extends Fragment {
         return layout;
     }
 
-    private void showTemperature(String name) {
+    private void showTemperature(String name, long id) {
 
-        TemperatureFragment detailTemperature = TemperatureFragment.create(name);
+        TemperatureFragment detailTemperature = TemperatureFragment.create(name, id);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, detailTemperature);
@@ -158,7 +164,7 @@ public class WeatherFragment extends Fragment {
         temperatureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTemperature(getName());
+                showTemperature(getName(), getCityId());
 
                 Intent intent = new Intent(getActivity(), ServiceWeather.class);
                 intent.putExtra(ServiceWeather.CITY_NAME, getName());
@@ -172,27 +178,28 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onCompleted(String content) {
                 showWeather(content);
-                Log.e("TEMP", content);
             }
         });
         okHttpRequester.load("https://api.weatherbit.io/v2.0/current?city=" + cityName +
-                ",RU&&lang=" + Locale.getDefault().getLanguage() + "&key=a2755975c69d45a0843ea950c79402cd");
+                ",RU&lang=" + Locale.getDefault().getLanguage() + "&key=a2755975c69d45a0843ea950c79402cd");
     }
 
     private void showWeather(String jsonResponseString) {
         try {
-            JSONObject jsonResponse = new JSONObject(jsonResponseString);
-            JSONArray array = jsonResponse.getJSONArray("data");
-            JSONObject jsonWeatherData = array.getJSONObject(0);
-            int temperature = (int)jsonWeatherData.getDouble("temp");
-            currentTemperature.setTemperature(String.valueOf(temperature));
-            double windSpeed = jsonWeatherData.getDouble("wind_spd");
-            String windDirection = jsonWeatherData.getString("wind_cdir_full");
-            currentWind.setText(getResources().getString(R.string.wind, windDirection, windSpeed));
-            int relativeHumidity = jsonWeatherData.getInt("rh");
-            currentHumidity.setText(getResources().getString(R.string.humidity, relativeHumidity));
-            int apparentTemperature = (int)jsonWeatherData.getDouble("app_temp");
-            currentFeelLikeWeather.setText(getResources().getString(R.string.feel_like, apparentTemperature));
+            if(jsonResponseString != null) {
+                JSONObject jsonResponse = new JSONObject(jsonResponseString);
+                JSONArray array = jsonResponse.getJSONArray("data");
+                JSONObject jsonWeatherData = array.getJSONObject(0);
+                int temperature = (int)jsonWeatherData.getDouble("temp");
+                currentTemperature.setTemperature(String.valueOf(temperature));
+                double windSpeed = jsonWeatherData.getDouble("wind_spd");
+                String windDirection = jsonWeatherData.getString("wind_cdir_full");
+                currentWind.setText(getResources().getString(R.string.wind, windDirection, windSpeed));
+                int relativeHumidity = jsonWeatherData.getInt("rh");
+                currentHumidity.setText(getResources().getString(R.string.humidity, relativeHumidity));
+                int apparentTemperature = (int)jsonWeatherData.getDouble("app_temp");
+                currentFeelLikeWeather.setText(getResources().getString(R.string.feel_like, apparentTemperature));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
