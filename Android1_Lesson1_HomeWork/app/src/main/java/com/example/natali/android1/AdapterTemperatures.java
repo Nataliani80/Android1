@@ -39,7 +39,7 @@ public class AdapterTemperatures extends RecyclerView.Adapter<AdapterTemperature
                     resources.getString(R.string.probability_of_precipitation,
                             weatherForecast.getForecastProbabilityOfPrecipitation()));
             this.forecastWind.setText(resources.getString(R.string.wind,
-                    weatherForecast.getForecastWindDirection(), weatherForecast.getForecastSpeedWind()));
+                    weatherForecast.getForecastWindDirection(), weatherForecast.getForecastWindSpeed()));
         }
     }
 

@@ -69,6 +69,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newCity;
     }
 
+    public WeatherForecast addWeather(long cityID, String date, int temperature, String description,
+                                      int probabilityOfPrecipitation, double windSpeed, String windDirection) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CITY_ID, cityID);
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_TEMPERATURE, temperature);
+        values.put(COLUMN_DESCRIPTION, description);
+        values.put(COLUMN_PROBABILITY_OF_PRECIPITATION, probabilityOfPrecipitation);
+        values.put(COLUMN_SPEED_WIND, windSpeed);
+        values.put(COLUMN_WIND_DIRECTION, windDirection);
+        long insertId = db.insert(TABLE_WEATHER_FORECAST, null, values);
+        WeatherForecast newWeatherForecast = new WeatherForecast();
+        newWeatherForecast.setIdWeather(insertId);
+        newWeatherForecast.setCityID(cityID);
+        newWeatherForecast.setForecastDate(date);
+        newWeatherForecast.setForecastTemperature(temperature);
+        newWeatherForecast.setForecastDescription(description);
+        newWeatherForecast.setForecastProbabilityOfPrecipitation(probabilityOfPrecipitation);
+        newWeatherForecast.setForecastWindSpeed(windSpeed);
+        newWeatherForecast.setForecastWindDirection(windDirection);
+        return newWeatherForecast;
+    }
+
+    private String[] allColumn = {
+            DatabaseHelper.COLUMN_CITY_ID,
+            DatabaseHelper.COLUMN_DATE,
+            DatabaseHelper.COLUMN_TEMPERATURE,
+            DatabaseHelper.COLUMN_DESCRIPTION,
+            DatabaseHelper.COLUMN_PROBABILITY_OF_PRECIPITATION,
+            DatabaseHelper.COLUMN_SPEED_WIND,
+            DatabaseHelper.COLUMN_WIND_DIRECTION
+    };
+
+
     public void editCity(City city, String description) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues editCity = new ContentValues();
@@ -98,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     };
 
     public ArrayList<City> query(){
-        ArrayList<City> listCities= new ArrayList<City>();
+        ArrayList<City> listCities = new ArrayList<City>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(DatabaseHelper.TABLE_CITIES,
                 notesAllColumn,
@@ -122,6 +157,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return listCities;
+    }
+
+    public ArrayList<WeatherForecast> queryWeather(long cityID) {
+        ArrayList<WeatherForecast> listWeather = new ArrayList<WeatherForecast>();
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = "cityID = " + cityID;
+        Cursor cursorWeather = database.query(DatabaseHelper.TABLE_WEATHER_FORECAST,
+                allColumn,
+                selection,
+                null,
+                null,
+                null,
+                null);
+        try {
+            if(cursorWeather.moveToFirst()) {
+                do {
+                    WeatherForecast weatherForecast = new WeatherForecast();
+                    weatherForecast.setCityID(cursorWeather.getLong
+                            (cursorWeather.getColumnIndex(COLUMN_CITY_ID)));
+                    weatherForecast.setForecastDate(cursorWeather.getString
+                            (cursorWeather.getColumnIndex(COLUMN_DATE)));
+                    weatherForecast.setForecastTemperature
+                            (cursorWeather.getInt(cursorWeather.getColumnIndex(COLUMN_TEMPERATURE)));
+                    weatherForecast.setForecastDescription
+                            (cursorWeather.getString(cursorWeather.getColumnIndex(COLUMN_DESCRIPTION)));
+                    weatherForecast.setForecastProbabilityOfPrecipitation
+                            (cursorWeather.getInt(cursorWeather.getColumnIndex(COLUMN_PROBABILITY_OF_PRECIPITATION)));
+                    weatherForecast.setForecastWindSpeed
+                            (cursorWeather.getDouble(cursorWeather.getColumnIndex(COLUMN_SPEED_WIND)));
+                    weatherForecast.setForecastWindDirection
+                            (cursorWeather.getString(cursorWeather.getColumnIndex(COLUMN_WIND_DIRECTION)));
+                    listWeather.add(weatherForecast);
+                } while (cursorWeather.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursorWeather.close();
+        }
+        return listWeather;
     }
 }
 

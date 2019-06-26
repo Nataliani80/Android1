@@ -21,10 +21,13 @@ import java.util.ArrayList;
 
 public class CitiesFragment extends Fragment {
 
+    public static CitiesFragment newInstance() {
+        return new CitiesFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
     }
 
@@ -72,8 +75,8 @@ public class CitiesFragment extends Fragment {
         ft.commit();
     }
 
-    private void showWeather(int position, String name) {
-        WeatherFragment detail = WeatherFragment.create(position, name);
+    private void showWeather(int position, String name, long id) {
+        WeatherFragment detail = WeatherFragment.create(position, name, id);
         replaceFragment(detail);
     }
 
@@ -113,7 +116,7 @@ public class CitiesFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 City city = cities.get(position);
-                showWeather(position, city.getName());
+                showWeather(position, city.getName(), city.getId());
             }
         });
     }
